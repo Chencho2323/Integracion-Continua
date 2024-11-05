@@ -31,7 +31,7 @@ git clone https://github.com/Chencho2323/integracion-continua.git
 
 Una vez clonado el repositorio, navega al directorio del proyecto:
 ```bash
-cd integracion-continua
+cd APP integracion-continua
 ```
 ## Iniciar los Contenedores con Docker
 
