@@ -1,0 +1,14 @@
+# Proyecto de Integración Continua 2024
+
+## Integrantes:
+- **Bonnickson Stewar Piñeros Leal**
+- ****
+
+## Institución:
+- **Institución Universitaria Politécnico Grancolombiano**
+
+## Facultad:
+- **Facultad de Ingeniería**
+
+## Programa:
+- **Ingeniería de Software**
