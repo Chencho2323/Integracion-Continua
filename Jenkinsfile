@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'node:20'  
+        DOCKER_IMAGE = 'IntegracionContinua'  // Nombre de la imagen Docker que se creará
     }
 
     stages {
@@ -15,8 +15,8 @@ pipeline {
         stage('Construir Docker Image') {
             steps {
                 script {
-                    // Construir la imagen de Docker
-                    sh 'docker build -t my-app .'
+                    // Construir la imagen Docker usando el Dockerfile del repositorio clonado
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     // Ejecutar pruebas dentro del contenedor Docker
-                    sh 'docker exec my-app npm test'
+                    sh "docker exec ${DOCKER_IMAGE} npm test"
                 }
             }
         }
@@ -46,3 +46,4 @@ pipeline {
         }
     }
 }
+
