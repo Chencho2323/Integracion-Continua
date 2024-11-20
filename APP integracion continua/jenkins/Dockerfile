@@ -5,7 +5,7 @@ RUN jenkins-plugin-cli --plugins docker-plugin configuration-as-code "workflow-a
 
 # Copiar scripts de inicialización
 COPY init.groovy.d/ /var/jenkins_home/init.groovy.d/
-COPY ./jenkins/casc.yaml /var/jenkins_home/casc.yaml
+COPY casc.yaml /var/jenkins_home/casc.yaml
 
 # Establecer el usuario como root para instalar dependencias
 USER root
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     docker-compose \
     && rm -rf /var/lib/apt/lists/*
 
-RUN jenkins-plugin-cli --plugins "docker-cloud"
+#RUN jenkins-plugin-cli --plugins "Docker"
 
 # Permitir a Jenkins ejecutar Docker
 RUN usermod -aG docker jenkins

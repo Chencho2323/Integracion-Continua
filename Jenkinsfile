@@ -1,48 +1,36 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'my-app' 
-    }
-
     stages {
-        stage('Clonar Repositorio') {
-            steps {
-                git url: 'https://github.com/Chencho2323/integracion-continua.git', branch: 'main'
-            }
-        }
-
-        stage('Construir Docker Image') {
+        stage('Preparar Ambiente jenkins') {
             steps {
                 script {
-                    // Construir la imagen Docker usando el Dockerfile del repositorio clonado
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    // Verificar conexión
+                    sh 'docker -H tcp://host.docker.internal:2375 version'
                 }
             }
         }
 
-        stage('Ejecutar Docker Compose') {
+        stage('Construir Contenedores app') {
             steps {
                 script {
-                    // Usar Docker Compose para levantar los contenedores
-                    sh 'docker-compose up -d'
+                    sh 'docker-compose -H tcp://host.docker.internal:2375 build'
                 }
             }
         }
 
-        stage('Pruebas') {
+        stage('Ejecutar Pruebas') {
             steps {
                 script {
-                    // Ejecutar pruebas dentro del contenedor Docker
-                    sh "docker exec ${DOCKER_IMAGE} npm test"
+                    sh 'docker-compose -H tcp://host.docker.internal:2375 up --abort-on-container-exit'
                 }
             }
         }
-    }
 
-    post {
-        always {
-            echo 'El pipeline ha finalizado.'
+        stage('Desplegar Produccion') {
+            steps {
+                echo 'Despliegue exitoso'
+            }
         }
     }
 }
