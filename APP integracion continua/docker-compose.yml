@@ -1,5 +1,22 @@
 services:
-  backend:
+  jenkins:
+    #image: jenkins/jenkins:lts
+    build: ./jenkins    
+    container_name: jenkins-main
+    ports:
+      - "8080:8080"  # Puerto de Jenkins
+      - "50000:50000" # Puerto de agente de Jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home  # Persistencia de datos
+      - ./jenkins/init.groovy.d:/var/jenkins_home/init.groovy.d
+     
+    networks:
+      - project_network
+
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+
+  backend:     
     build: ./backend
     ports:
       - "3000:3000"
@@ -10,7 +27,7 @@ services:
       - PGUSER=Pruebas
       - PGPASSWORD=Pruebas4321*
       - PGDATABASE=mydatabase
-
+    
   db:
     image: postgres:13
     environment:
@@ -21,7 +38,13 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-
+    
 volumes:
-  db_data:
+  db_data:  # Volumen para la base de datos
+    driver: local
+  jenkins_home:  # Volumen para Jenkins
+    driver: local
 
+networks:
+  project_network:  # Red compartida entre los servicios
+    driver: bridge
