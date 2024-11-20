@@ -16,7 +16,7 @@ if (jenkinsInstance.getItem(jobName) == null) {
     def scm = new GitSCM(repoUrl)
     scm.branches = [new BranchSpec(branch)]
     
-    def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "ci/Jenkinsfile")  // Ruta personalizada del Jenkinsfile
+    def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")  // Ruta personalizada del Jenkinsfile
     def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(jenkinsInstance, jobName)
     job.definition = flowDefinition
     jenkinsInstance.add(job, jobName)

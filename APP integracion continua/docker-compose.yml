@@ -7,7 +7,7 @@ services:
       - "8080:8080"  # Puerto de Jenkins
       - "50000:50000" # Puerto de agente de Jenkins
     volumes:
-      - jenkins_home:/var/jenkins_home  # Persistencia de datos
+      - jenkins_home:/var/jenkins_home  
       - ./jenkins/init.groovy.d:/var/jenkins_home/init.groovy.d
      
     networks:

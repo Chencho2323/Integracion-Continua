@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'node:20'  // Imagen de Docker que usarás
+        DOCKER_IMAGE = 'node:20'  
     }
 
     stages {
