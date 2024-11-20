@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'JenkinsDev' 
+        DOCKER_IMAGE = 'my-app' 
     }
 
     stages {
