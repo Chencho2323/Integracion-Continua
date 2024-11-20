@@ -1,0 +1,7 @@
+jenkins:
+  clouds:
+    - docker:
+        name: "Docker Cloud"
+        serverUrl: "tcp://host.docker.internal:2375"
+        credentialsId: ""
+        templates: []
