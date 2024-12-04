@@ -1,20 +1,39 @@
 pipeline {
-    agent any
+    agent any  // Este agente puede ser cualquier nodo disponible en Jenkins
 
     stages {
-        stage('Preparar Ambiente jenkins') {
+        stage('Clonar Repositorio') {
             steps {
                 script {
-                    // Verificar conexión
-                    sh 'docker -H tcp://host.docker.internal:2375 version'
+                    // Clonar el repositorio desde GitHub
+                    git url: 'https://github.com/Chencho2323/integracion-continua.git', branch: 'main'
                 }
             }
         }
 
-        stage('Construir Contenedores app') {
+        stage('Verificar Archivos Clonados') {
             steps {
                 script {
-                    sh 'docker-compose -H tcp://host.docker.internal:2375 build'
+                    // Verificar que los archivos fueron correctamente clonados
+                    sh 'ls -alh'
+                }
+            }
+        }
+
+        stage('Preparar Ambiente Jenkins') {
+            steps {
+                script {
+                    // Aquí puedes agregar cualquier paso de configuración o instalación necesaria
+                    echo 'Preparando el ambiente Jenkins'
+                }
+            }
+        }
+
+        stage('Construir Contenedores') {
+            steps {
+                script {
+                    // Ejecuta cualquier comando de Docker o Docker Compose
+                    sh 'docker-compose up --build -d'
                 }
             }
         }
@@ -22,16 +41,29 @@ pipeline {
         stage('Ejecutar Pruebas') {
             steps {
                 script {
-                    sh 'docker-compose -H tcp://host.docker.internal:2375 up --abort-on-container-exit'
+                    // Puedes agregar pruebas aquí, como pruebas unitarias o de integración
+                    echo 'Ejecutando pruebas...'
+                    // Ejemplo con Docker Compose: sh 'docker-compose exec <service_name> npm test'
                 }
             }
         }
 
-        stage('Desplegar Produccion') {
+        stage('Desplegar Producción') {
             steps {
-                echo 'Despliegue exitoso'
+                script {
+                    // Aquí puedes incluir pasos para desplegar la aplicación en un entorno de producción
+                    echo 'Desplegando en producción...'
+                }
             }
         }
     }
-}
 
+    post {
+        success {
+            echo 'Pipeline completado con éxito.'
+        }
+        failure {
+            echo 'Pipeline falló.'
+        }
+    }
+}
