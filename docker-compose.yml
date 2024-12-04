@@ -1,0 +1,33 @@
+services:
+  backend:     
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - PGHOST=db
+      - PGUSER=Pruebas
+      - PGPASSWORD=Pruebas4321*
+      - PGDATABASE=mydatabase
+    
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: Pruebas
+      POSTGRES_PASSWORD: Pruebas4321*
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    
+volumes:
+  db_data:  
+    driver: local
+  jenkins_home:  
+    driver: local
+
+networks:
+  project_network:  
+    driver: bridge
